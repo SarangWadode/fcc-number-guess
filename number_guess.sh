@@ -27,7 +27,7 @@ else
   INSERTED_TO_USERS=$($PSQL "insert into users(name) values('$USERNAME')")
   #get user_id
   USER_ID=$($PSQL "select u_id from users where name = '$USERNAME'")
-  echo $USER_ID
+  # echo $USER_ID
 fi
 
 #secret number
@@ -55,6 +55,7 @@ do
     TRIES=$(( $TRIES + 1 ))
     echo "You guessed it in $TRIES tries. The secret number was $SECRET. Nice job!"
     #insert into db
+    INSERTED_TO_GAMES=$($PSQL "insert into games(u_id, guesses) values($USER_ID, $TRIES)")
     GUESSED=1
   #if greater
   elif [[ $SECRET -gt $GUESS ]]
