@@ -35,27 +35,33 @@ SECRET=$(( 1 + $RANDOM % 1000 ))
 
 #count guesses
 TRIES=0
+
 #guess number
-echo "Guess the secret number between 1 and 1000:"
 echo $SECRET
-read GUESS
+GUESSED=0
 
+while [[ $GUESSED = 0 ]] 
+do
+  echo "Guess the secret number between 1 and 1000:"
+  read GUESS
 
-#track count of tries
-#if correct guess
-if [[ $SECRET = $GUESS ]]
-then
-  TRIES=$(( $TRIES + 1 ))
-  echo "You guessed it in $TRIES tries. The secret number was $SECRET. Nice job!"
-  #insert into db
-#if greater
-elif [[ $SECRET -gt $GUESS ]]
-then
-  TRIES=$(( $TRIES + 1 ))
-  echo "It's higher than that, guess again:"
-#if smaller
-else
-  TRIES=$(( $TRIES + 1 ))
-  echo "It's lower than that, guess again:"
-fi
+  #if correct guess
+  if [[ $SECRET = $GUESS ]]
+  then
+    TRIES=$(( $TRIES + 1 ))
+    echo "You guessed it in $TRIES tries. The secret number was $SECRET. Nice job!"
+    #insert into db
+    GUESSED=1
+  #if greater
+  elif [[ $SECRET -gt $GUESS ]]
+  then
+    TRIES=$(( $TRIES + 1 ))
+    echo "It's higher than that, guess again:"
+  #if smaller
+  else
+    TRIES=$(( $TRIES + 1 ))
+    echo "It's lower than that, guess again:"
+  fi
+
+done
 
